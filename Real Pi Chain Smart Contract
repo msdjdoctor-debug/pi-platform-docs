@@ -1,0 +1,33 @@
+// pi-smart-contracts/src/lib.rs
+#[pi_contract]
+pub struct Pi314159 {
+    #[pi_storage] total_supply: u128,
+    #[pi_storage] balances: Map<AccountId, u128>,
+}
+
+#[pi_contract_impl]
+impl Pi314159 {
+    #[pi_init]
+    pub fn new() -> Self {
+        let mut contract = Self {
+            total_supply: 100_000_000_000_000_000_000_000_000, // 100 billion × 10¹⁸
+            balances: Map::new(),
+        };
+        let caller = pi_env::caller();
+        contract.balances.insert(caller, 100_000_000_000_000_000_000_000_000);
+        contract
+    }
+
+    #[pi_message]
+    pub fn price() -> u128 {
+        314_159_000_000_000_000 // $314.159 with 18 decimals
+    }
+
+    #[pi_message]
+    pub fn buy_with_fiat(&mut self, usd_paid: u128) -> u128 {
+        let pi_amount = (usd_paid * 1_000_000_000_000_000_000) / 314_159_000_000_000_000;
+        let caller = pi_env::caller();
+        self.balances.insert(caller, self.balances.get(&caller).unwrap_or(&0) + pi_amount);
+        pi_amount
+    }
+}
