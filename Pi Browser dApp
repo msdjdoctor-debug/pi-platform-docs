@@ -1,0 +1,33 @@
+<!-- pi-app/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Pi314.159 - 1 PI = $314.159 Forever</title>
+  <script src="https://sdk.pi.network/v2/pi-sdk.js"></script>
+  <style>
+    body { font-family: Arial; text-align:center; background:#12003a; color:#ff9900; padding:40px; }
+    button { font-size:24px; padding:20px 40px; background:#ff9900; color:black; border:none; border-radius:16px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <h1>π = $314.159</h1>
+  <h2>Forever. No discussion.</h2>
+  <p>Total Supply: <b>100,000,000,000 PI</b></p>
+  <p>Fixed Price: <b>$314.159</b></p>
+  
+  <button onclick="buyPI314()">Buy PI at $314.159</button>
+
+  <script>
+    async function buyPI314() {
+      const payment = await Pi.createPayment({
+        amount: 314.159,
+        memo: "Pi314.159 Eternal Peg",
+        metadata: { action: "buy_at_314159" }
+      });
+
+      alert("Congratulations! You just bought PI at exactly $314.159\nYou are now part of history.");
+    }
+  </script>
+</body>
+</html>
