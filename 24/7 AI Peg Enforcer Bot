@@ -1,0 +1,22 @@
+// backend-bot/peg-enforcer.js
+const Pi = require('pi-sdk-node');
+Pi.init({ apiKey: 'YOUR_PI_DEVELOPER_API_KEY' });
+
+console.log("PI314.159 ETERNAL PEG ENGINE STARTED");
+console.log("1 PI = $314.159 → 100 billion supply → FOREVER");
+
+Pi.server.onPayment(async (payment) => {
+  if (payment.memo.includes("Pi314.159") || payment.metadata?.action === "buy_at_314159") {
+    const user = payment.identifier;
+    const usd = payment.amount;
+
+    if (Math.abs(usd - 314.159) < 0.1) {
+      await Pi.sendPi({
+        to: user,
+        amount: "1000000000000000000", // exactly 1 PI
+        memo: "Welcome to the $314.159 club"
+      });
+      console.log(`New member: ${user} → received 1 PI at $314.159`);
+    }
+  }
+});
